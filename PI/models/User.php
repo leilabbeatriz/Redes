@@ -8,7 +8,7 @@ class User{
     }
 
     function find (string $email) : Array | bool {  
-        $query = 'SELECT email FROM users WHERE email=:email';
+        $query = 'SELECT * FROM users WHERE email=:email';
 
         $sttm = $this->connection->prepare($query);
         $sttm->bindValue(':email', $email);  
@@ -16,15 +16,15 @@ class User{
         return $result->fetchArray(SQLITE3_ASSOC);
     }
 
-    function save (string $name, string $user, int $idade, string $email, string $password) : SQLite3Result | bool{
-        $query = "INSERT INTO users ('name', 'user', 'idade', 'email', 'password')" .
-        "values(:name, :user, :idade,:email,:password)";
+    function save (string $name, string $user, int $age, string $email, string $password) : SQLite3Result | bool{
+        $query = "INSERT INTO users ('name', 'user', 'age', 'email', 'password')" .
+        "values(:name, :user, :age,:email,:password)";
 
         $sttm = $this->connection->prepare($query);
 
         $sttm->bindValue(":name", $name);
         $sttm->bindValue(":user", $user);
-        $sttm->bindValue(":idade", $idade);
+        $sttm->bindValue(":age", $age);
         $sttm->bindValue(":email", $email);
         $sttm->bindValue(":password", password_hash($password, PASSWORD_ARGON2I));
         $result = $sttm->execute();

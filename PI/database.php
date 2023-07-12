@@ -7,7 +7,7 @@ function connection() : SQLite3 {
 //recebe a declaração SQL e o banco de dados
 function find ($query) {    
     $connection = connection();
-    return $connection->query($query);
+    return $connection->exec($query);
 }
 
 function save ($query) {
@@ -23,7 +23,7 @@ $connection->exec(
     "CREATE TABLE IF NOT EXISTS plans(
         id INTEGER PRIMARY KEY,
         nomePlano TEXT,
-        duracaoPlano TEXT,
+        duracaoPlano INT,
         valorPlano FLOAT)"
 );
 
@@ -33,7 +33,7 @@ $connection->exec(
         id INTEGER PRIMARY KEY,
         name TEXT,
         user TEXT,
-        idade INT,
+        age INT,
         email TEXT,
         password TEXT)"
 );

@@ -1,31 +1,28 @@
 <?php
 
-
-
-// verificando se há usuário conectado
-// usa função definida no arquivo auth.php
 if (hasUser()) {
     header("Location: /");
 }
 
-if (isset($_POST['user'], $_POST['password'])) {
+if (isset($_POST['email'], $_POST['password'])) {
     //login
 
-    $user = $_POST['user'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    //usa função find() presente no arquivo database.php
-    $result = find ("SELECT * FROM users where user='{$user}'");
+    //o código de busca de usuário está
+    //encapsulado na classe User (modelo)
+    $User = new User(connection());    
+    $data = $User->find($email);
 
 
-    $data = $result->fetchArray();        
-
-    if ($data) {
+    if ($data && password_verify($password, $data['password'])) {
         $_SESSION['user'] = $data['user'];
         header('Location: /');
     } else {
-        header('Location: /pages/cadastro');
+        header('Location: /users/login');
     }
 } else {
-    header('Location: /pages/login');
+    header('Location: /users/login');
 }
 ?>
